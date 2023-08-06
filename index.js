@@ -36,10 +36,18 @@ app.post('/compose', async (req, res) => {
   res.send('Data received successfully.');
 });
 
-app.post('/dataById', async(req, res)=>{
+app.post('/dataById', async (req, res) => {
   const data = req.body;
-  const dataId = await Cont.find({"_id":data.id});
+  const dataId = await Cont.find({ "_id": data.id });
   res.send(dataId);
+})
+
+app.post('/delete', async (req, res) => {
+  const data = req.body;
+  if (data.password === process.env.DELPASSWORD) {
+    await Cont.deleteOne({ _id: data.id });
+  }
+  res.send('Data received successfully.');
 })
 
 app.listen(port, () => {
